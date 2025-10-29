@@ -1651,45 +1651,49 @@
     });
     
     // Функция отправки сообщения в чате
-    async function sendChatMessage() {
-        const message = chatInput.value.trim();
-        if (message && chatSessionId) {
-            // Добавляем сообщение пользователя в чат
-            addMessageToChat('user', message);
+async function sendChatMessage() {
+    const message = chatInput.value.trim();
+    if (message && chatSessionId) {
+        // Добавляем сообщение пользователя в чат
+        addMessageToChat('user', message);
+        
+        try {
+            console.log('🔄 Отправляю сообщение на сервер...');
             
-            try {
-                // Отправляем сообщение на сервер
-                const response = await fetch(`${SERVER_URL}/chat/${chatSessionId}/messages`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        sender: 'user'
-                    })
-                });
-                
-                const result = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(result.error || 'Ошибка отправки сообщения');
-                }
-                
-                console.log('✅ Сообщение отправлено на сервер:', result);
-                
-                // Показываем подтверждение
-                addMessageToChat('bot', '✅ Сообщение отправлено! Ожидайте ответа.');
-                
-            } catch (error) {
-                console.error('❌ Ошибка:', error);
-                addMessageToChat('bot', '❌ Ошибка отправки сообщения. Пожалуйста, попробуйте еще раз или свяжитесь с нами по телефону.');
+            // Отправляем сообщение на сервер
+            const response = await fetch(`http://localhost:8080/chat/${chatSessionId}/messages`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: message,
+                    sender: 'user'
+                })
+            });
+            
+            console.log('📨 Статус ответа:', response.status);
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`HTTP ${response.status}: ${errorText}`);
             }
             
-            // Очищаем поле ввода
-            chatInput.value = '';
+            const result = await response.json();
+            console.log('✅ Ответ сервера:', result);
+            
+            // Показываем подтверждение
+            addMessageToChat('bot', '✅ Сообщение отправлено! Ожидайте ответа.');
+            
+        } catch (error) {
+            console.error('❌ Ошибка отправки:', error);
+            addMessageToChat('bot', '❌ Ошибка соединения с сервером. Проверьте, запущен ли сервер на localhost:8080');
         }
+        
+        // Очищаем поле ввода
+        chatInput.value = '';
     }
+}
     
     // Функция для добавления сообщения в чат
     function addMessageToChat(sender, message) {
