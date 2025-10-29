@@ -127,7 +127,6 @@
         .messenger-buttons {
             display: flex;
             gap: 15px;
-            margin-left: 25px;
         }
         
         .messenger-btn {
@@ -390,34 +389,6 @@
             display: block;
             width: fit-content;
             margin: 40px auto 0;
-        }
-        
-        /* Stats Section */
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin: 60px 0;
-        }
-        
-        .stat {
-            text-align: center;
-            padding: 30px;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
-        
-        .stat-number {
-            font-size: 3rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-        
-        .stat-label {
-            font-size: 1.1rem;
-            color: var(--text-color);
         }
         
         /* Documents Catalog */
@@ -1098,19 +1069,6 @@
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
-            
-            .stats-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .stat {
-                padding: 20px;
-            }
-            
-            .stat-number {
-                font-size: 2.5rem;
-            }
         }
         
         @media (max-width: 576px) {
@@ -1282,22 +1240,6 @@
                 <div class="benefit">
                     <h3><i class="fas fa-file-alt"></i> Пояснительная записка с законами</h3>
                     <p>Вы получаете не просто "бумажку". К каждому документу мы прикладываем <strong>подробную пояснительную записку</strong> со ссылками на статьи ГК РФ, НК РФ и другие нормативные акты. Вы будете понимать, какая норма права и как вас защищает.</p>
-                </div>
-            </div>
-            
-            <!-- Stats Section -->
-            <div class="stats-container">
-                <div class="stat">
-                    <div class="stat-number" data-target="95">0</div>
-                    <div class="stat-label">% документов не требуют доработки</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number" data-target="500">0</div>
-                    <div class="stat-label">составленных документов</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number" data-target="24">0</div>
-                    <div class="stat-label">часа - средний срок выполнения</div>
                 </div>
             </div>
             
@@ -1678,6 +1620,10 @@
     </button>
 
     <script>
+        // Telegram Bot Configuration
+        const TELEGRAM_BOT_TOKEN = '8320205360:AAH2VuXgKiQ6z06-ABuReOnuThI3xsfxrQA';
+        const TELEGRAM_CHAT_ID = '559808262';
+        
         // Мобильная навигация
         const mobileNavToggle = document.getElementById('mobileNavToggle');
         const mobileNav = document.getElementById('mobileNav');
@@ -1763,37 +1709,6 @@
                 header.classList.remove('header-scrolled');
             }
         });
-        
-        // Анимированные счетчики
-        const statNumbers = document.querySelectorAll('.stat-number');
-        const statsSection = document.querySelector('.benefits');
-        
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    statNumbers.forEach(statNumber => {
-                        const target = parseInt(statNumber.getAttribute('data-target'));
-                        const duration = 2000; // 2 seconds
-                        const step = target / (duration / 16); // 60fps
-                        let current = 0;
-                        
-                        const timer = setInterval(() => {
-                            current += step;
-                            if (current >= target) {
-                                current = target;
-                                clearInterval(timer);
-                            }
-                            statNumber.textContent = Math.floor(current);
-                        }, 16);
-                    });
-                    
-                    // Отключаем наблюдатель после первого срабатывания
-                    statsObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-        
-        statsObserver.observe(statsSection);
         
         // Чат
         const chatButton = document.getElementById('chatButton');
@@ -1899,7 +1814,41 @@
         const buttonText = submitButton.querySelector('.button-text');
         const loader = submitButton.querySelector('.loader');
         
-        contactForm.addEventListener('submit', function(e) {
+        // Функция отправки данных в Telegram
+        async function sendToTelegram(formData) {
+            const message = `
+Новая заявка с сайта:
+
+Имя: ${formData.name}
+Телефон: ${formData.phone}
+Email: ${formData.email}
+Задача: ${formData.task}
+            `;
+            
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+                
+                const data = await response.json();
+                return data.ok;
+            } catch (error) {
+                console.error('Ошибка отправки в Telegram:', error);
+                return false;
+            }
+        }
+        
+        contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Валидация
@@ -1919,16 +1868,28 @@
             loader.style.display = 'block';
             submitButton.disabled = true;
             
-            // Имитация отправки на сервер
-            setTimeout(() => {
+            // Формируем данные для отправки
+            const formData = {
+                name: name,
+                phone: phone,
+                email: email,
+                task: task
+            };
+            
+            // Отправляем данные в Telegram
+            const isSent = await sendToTelegram(formData);
+            
+            if (isSent) {
                 alert('Спасибо за заявку! Мы свяжемся с вами в течение 15 минут.');
                 contactForm.reset();
-                
-                // Скрываем лоадер
-                buttonText.style.display = 'block';
-                loader.style.display = 'none';
-                submitButton.disabled = false;
-            }, 2000);
+            } else {
+                alert('Произошла ошибка при отправке заявки. Пожалуйста, свяжитесь с нами по телефону +7 (986) 244-57-33');
+            }
+            
+            // Скрываем лоадер
+            buttonText.style.display = 'block';
+            loader.style.display = 'none';
+            submitButton.disabled = false;
         });
         
         // Кнопка "Наверх"
