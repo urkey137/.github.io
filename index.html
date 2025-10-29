@@ -1537,7 +1537,7 @@
     </div>
 
 <script>
-  // Конфигурация
+ // Конфигурация
 const SERVER_URL = 'http://localhost:8080';
 let chatSessionId = null;
 let messagePolling = null;
@@ -1814,38 +1814,6 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
         alert('❌ Произошла ошибка при отправке. Пожалуйста, свяжитесь с нами по телефону +7 (986) 244-57-33');
     }
 });
-
-// Альтернативный способ отправки (если основной не работает)
-async function sendAlternativeMessage(message) {
-    try {
-        // Создаем отдельную сессию для формы
-        const formSessionId = 'form_' + Date.now();
-        
-        const response = await fetch(`${SERVER_URL}/chat/${formSessionId}/messages`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: message,
-                sender: 'form'
-            })
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            alert('✅ Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.');
-            document.getElementById('contactForm').reset();
-            console.log('📨 Заявка отправлена через резервную сессию:', formSessionId);
-        } else {
-            throw new Error('Ошибка отправки');
-        }
-    } catch (error) {
-        console.error('Ошибка резервной отправки:', error);
-        alert('❌ Произошла ошибка при отправке. Пожалуйста, свяжитесь с нами по телефону +7 (986) 244-57-33');
-    }
-}
 </script>
 </body>
 </html>
