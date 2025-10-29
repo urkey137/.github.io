@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Составление договоров и других юридических документов под ключ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a3a6c;
+            --accent-color: #d4af37;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --text-color: #333;
+            --border-radius: 10px;
+            --box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--text-color);
+            line-height: 1.7;
+            font-size: 18px;
+            background-color: #f5f7fa;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            z-index: 1001;
+        }
+        
+        .logo span {
+            color: var(--accent-color);
+        }
+        
+        .desktop-nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+        
+        .desktop-nav ul li {
+            margin-left: 25px;
+        }
+        
+        .desktop-nav ul li a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1.1rem;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .desktop-nav ul li a:hover {
+            color: var(--accent-color);
+        }
+        
+        .desktop-nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+        }
+        
+        .desktop-nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        /* Messenger Buttons */
+        .messenger-buttons {
+            display: flex;
+            gap: 15px;
+            margin-left: 25px;
+        }
+        
+        .messenger-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .telegram-btn {
+            background-color: #0088cc;
+        }
+        
+        .whatsapp-btn {
+            background-color: #25D366;
+        }
+        
+        .messenger-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Mobile Navigation */
+        .mobile-nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background-color: var(--primary-color);
+            padding: 80px 20px 20px;
+            transition: var(--transition);
+            z-index: 999;
+            overflow-y: auto;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mobile-nav.active {
+            right: 0;
+        }
+        
+        .mobile-nav ul {
+            list-style: none;
+        }
+        
+        .mobile-nav ul li {
+            margin-bottom: 15px;
+        }
+        
+        .mobile-nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            display: block;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+        
+        .mobile-nav ul li a:hover {
+            color: var(--accent-color);
+            padding-left: 10px;
+        }
+        
+        .mobile-messenger-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+        
+        .mobile-messenger-buttons .messenger-btn {
+            width: 50px;
+            height: 50px;
+            font-size: 1.4rem;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(26, 58, 108, 0.85), rgba(26, 58, 108, 0.9)), url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, #f5f7fa);
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero h2 {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            font-weight: 400;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 18px 40px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.3rem;
+            transition: var(--transition);
+            margin-bottom: 20px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button:hover {
+            background-color: #e6c260;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+        }
+        
+        .cta-button:active {
+            transform: translateY(-2px);
+        }
+        
+        .hero small {
+            display: block;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Benefits Section */
+        .benefits {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 2.4rem;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 1.3rem;
+            color: #555;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .benefit {
+            background-color: white;
+            padding: 35px 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .benefit:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(26, 58, 108, 0.03) 0%, rgba(212, 175, 55, 0.03) 100%);
+            z-index: 0;
+        }
+        
+        .benefit:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .benefit h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .benefit p {
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .benefits .cta-button {
+            display: block;
+            width: fit-content;
+            margin: 40px auto 0;
+        }
+        
+        /* Documents Catalog */
+        .documents {
+            padding: 100px 0;
+            background-color: var(--light-color);
+        }
+        
+        .documents h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 2.4rem;
+        }
+        
+        .documents h3 {
+            color: var(--primary-color);
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+            font-size: 1.7rem;
+        }
+        
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .document-category {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+        
+        .document-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .document-category h4 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .document-category h4 i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+        
+        .documents ul {
+            list-style-type: none;
+            margin-left: 10px;
+        }
+        
+        .documents li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 25px;
+            font-size: 1.1rem;
+        }
+        
+        .documents li:before {
+            content: "•";
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .documents .cta-button {
+            display: block;
+            width: fit-content;
+            margin: 50px auto 0;
+        }
+        
+        /* Process Section */
+        .process {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .step {
+            background-color: white;
+            padding: 35px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .step:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            line-height: 60px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(26, 58, 108, 0.3);
+        }
+        
+        .step h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .step p {
+            font-size: 1.1rem;
+        }
+        
+        /* Warning Section */
+        .warning {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #f8d7da 0%, #f1b0b7 100%);
+            color: #721c24;
+            position: relative;
+        }
+        
+        .warning:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23dc3545' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+        
+        .warning h2 {
+            margin-bottom: 20px;
+            font-size: 2.2rem;
+            position: relative;
+        }
+        
+        .warning p {
+            font-size: 1.2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        /* Contact Form */
+        .contact {
+            padding: 100px 0;
+            background: linear-gradient(rgba(26, 58, 108, 0.9), rgba(26, 58, 108, 0.95)), url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat;
+            color: white;
+            position: relative;
+        }
+        
+        .contact:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        
+        .contact h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.4rem;
+            position: relative;
+        }
+        
+        .contact-form {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+        
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+        }
+        
+        .form-group textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        
+        .contact-form .cta-button {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .contact-info {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 1.2rem;
+            position: relative;
+        }
+        
+        .contact-info p {
+            margin-bottom: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 50px 0 30px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #ddd;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+        
+        .footer-messenger-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .copyright {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1rem;
+        }
+        
+        /* Chat Widget */
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .chat-button {
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            animation: pulse 2s infinite;
+        }
+        
+        .chat-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+        
+        .chat-button i {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+        
+        .chat-window {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            height: 450px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+        
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .bot-message {
+            background-color: #f0f2f5;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+        
+        .chat-input button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Terms Section */
+        .terms {
+            padding: 80px 0;
+            background-color: var(--light-color);
+        }
+        
+        .terms-content {
+            background-color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .terms-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .term-link {
+            padding: 10px 20px;
+            background-color: #f0f2f5;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--text-color);
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .term-link:hover, .term-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .term-content {
+            display: none;
+        }
+        
+        .term-content.active {
+            display: block;
+        }
+        
+        .term-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+        }
+        
+        .term-content h4 {
+            color: var(--primary-color);
+            margin: 25px 0 15px;
+            font-size: 1.3rem;
+        }
+        
+        .term-content p {
+            margin-bottom: 15px;
+        }
+        
+        .term-content ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .term-content li {
+            margin-bottom: 10px;
+        }
+        
+        /* Mobile Responsive Styles */
+        @media (max-width: 1200px) {
+            .container {
+                width: 95%;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+            
+            .mobile-nav-toggle {
+                display: block;
+            }
+            
+            .hero {
+                padding: 80px 0;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.3rem;
+            }
+            
+            .contact-form {
+                padding: 25px;
+            }
+            
+            .benefits, .documents, .process, .contact, .terms {
+                padding: 60px 0;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-subtitle {
+                font-size: 1.1rem;
+                margin-bottom: 40px;
+            }
+            
+            .benefit, .step, .document-category {
+                padding: 25px 20px;
+            }
+            
+            .benefit h3, .step h3, .document-category h4 {
+                font-size: 1.3rem;
+            }
+            
+            .cta-button {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+            }
+            
+            .terms-content {
+                padding: 25px;
+            }
+            
+            .terms-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .term-link {
+                text-align: center;
+                padding: 12px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .benefits-grid, .documents-grid, .process-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .chat-window {
+                width: 280px;
+                right: -20px;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .container {
+                width: 92%;
+            }
+            
+            body {
+                font-size: 16px;
+            }
+            
+            .benefit p, .step p, .documents li {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero {
+                padding: 60px 0;
+            }
+            
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.1rem;
+            }
+            
+            .cta-button {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+            
+            .chat-window {
+                width: 260px;
+                height: 400px;
+            }
+            
+            .contact-form {
+                padding: 20px;
+            }
+            
+            .terms-content {
+                padding: 20px;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">Составление-<span>документов</span>.рф</div>
+            <nav class="desktop-nav">
+                <ul>
+                    <li><a href="#benefits">Преимущества</a></li>
+                    <li><a href="#documents">Документы</a></li>
+                    <li><a href="#process">Как мы работаем</a></li>
+                    <li><a href="#terms">Условия</a></li>
+                    <li><a href="#contact">Контакты</a></li>
+                    <li class="messenger-buttons">
+                        <a href="https://t.me/urkey1" class="messenger-btn telegram-btn" target="_blank" title="Telegram">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="https://wa.me/79862445733" class="messenger-btn whatsapp-btn" target="_blank" title="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <button class="mobile-nav-toggle" id="mobileNavToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="#benefits">Преимущества</a></li>
+            <li><a href="#documents">Документы</a></li>
+            <li><a href="#process">Как мы работаем</a></li>
+            <li><a href="#terms">Условия</a></li>
+            <li><a href="#contact">Контакты</a></li>
+        </ul>
+        <div class="mobile-messenger-buttons">
+            <a href="https://t.me/urkey1" class="messenger-btn telegram-btn" target="_blank" title="Telegram">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://wa.me/79862445733" class="messenger-btn whatsapp-btn" target="_blank" title="WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+        </div>
+    </nav>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Составление договоров и других юридических документов под ключ</h1>
+            <h2>Профессиональная разработка, проверка кандидатами и докторами наук и исковая защита с гарантией результата</h2>
+            <a href="#contact" class="cta-button">Рассчитать стоимость документа</a>
+            <small>Бесплатная консультация по вашему случаю в течение 15 минут</small>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits" id="benefits">
+        <div class="container">
+            <h2 class="section-title">Почему 95% наших документов не требуют доработки в суде?</h2>
+            <p class="section-subtitle">Многоуровневая система проверки — ваша гарантия юридической чистоты</p>
+            <p class="section-subtitle">Мы не просто составляем договоры. Мы создаем надежные юридические барьеры, которые защищают ваши интересы в любой ситуации. Наш секрет — в уникальном процессе, не имеющем аналогов на рынке.</p>
+            
+            <div class="benefits-grid">
+                <div class="benefit">
+                    <h3><i class="fas fa-rocket"></i> Разработка практиками</h3>
+                    <p>Каждый документ изначально готовится юристом, специализирующимся на конкретной области права (договорное, корпоративное, налоговое).</p>
+                </div>
+                <div class="benefit">
+                    <h3><i class="fas fa-search"></i> Научная экспертиза</h3>
+                    <p>Ваш договор проверяют <strong>кандидаты и доктора юридических наук</strong>. Они видят скрытые риски и слабые места, неочевидные для большинства практикующих юристов.</p>
+                </div>
+                <div class="benefit">
+                    <h3><i class="fas fa-balance-scale"></i> Аудит от бывших судей</h3>
+                    <p>Для сложных кейсов мы проводим коллегиальную разработку и привлекаем <strong>бывших судей</strong>. Они оценивают, как документ будет выглядеть в глазах суда, и укрепляют его позицию.</p>
+                </div>
+                <div class="benefit">
+                    <h3><i class="fas fa-robot"></i> Проверка нейросетью "Искра"</h3>
+                    <p>Мы — первые, кто использует юридическую нейросеть "Искра" для финального контроля. Она анализирует сотни тысяч судебных решений и находит противоречия, которые мог пропустить человек.</p>
+                </div>
+                <div class="benefit">
+                    <h3><i class="fas fa-file-alt"></i> Пояснительная записка с законами</h3>
+                    <p>Вы получаете не просто "бумажку". К каждому документу мы прикладываем <strong>подробную пояснительную записку</strong> со ссылками на статьи ГК РФ, НК РФ и другие нормативные акты. Вы будете понимать, какая норма права и как вас защищает.</p>
+                </div>
+            </div>
+            
+            <a href="#contact" class="cta-button">Заказать документ с полной проверкой</a>
+        </div>
+    </section>
+
+    <!-- Documents Catalog -->
+    <section class="documents" id="documents">
+        <div class="container">
+            <h2 class="section-title">Какие юридические документы мы составляем?</h2>
+            <p class="section-subtitle">Полный спектр юридических документов для бизнеса и частных лиц</p>
+            <p class="section-subtitle">Мы оказываем услуги по составлению любых договоров и не только. Наша экспертиза покрывает все ключевые сферы.</p>
+            
+            <div class="documents-grid">
+                <div class="document-category">
+                    <h4><i class="fas fa-handshake"></i> Договорная работа</h4>
+                    <ul>
+                        <li>Купли-продажи, поставки, оказания услуг</li>
+                        <li>Подряд и выполнение работ</li>
+                        <li>Арендные отношения</li>
+                        <li>Заем и кредит</li>
+                        <li>Дарение, мена, рента</li>
+                        <li>Учредительные договоры</li>
+                    </ul>
+                </div>
+                
+                <div class="document-category">
+                    <h4><i class="fas fa-building"></i> Корпоративные документы</h4>
+                    <ul>
+                        <li>Уставы ООО и АО</li>
+                        <li>Протоколы собраний</li>
+                        <li>Договоры об отчуждении долей</li>
+                        <li>Положения об органах управления</li>
+                    </ul>
+                </div>
+                
+                <div class="document-category">
+                    <h4><i class="fas fa-gavel"></i> Исковые заявления</h4>
+                    <ul>
+                        <li>Мотивированные претензии</li>
+                        <li>Исковые заявления</li>
+                        <li>Возражения и отзывы на иск</li>
+                    </ul>
+                </div>
+                
+                <div class="document-category">
+                    <h4><i class="fas fa-file-contract"></i> Административные документы</h4>
+                    <ul>
+                        <li>Доверенности</li>
+                        <li>Трудовые договоры</li>
+                        <li>Политика обработки данных</li>
+                        <li>Приказы и распоряжения</li>
+                    </ul>
+                </div>
+                
+                <div class="document-category">
+                    <h4><i class="fas fa-home"></i> Недвижимость и регистрация</h4>
+                    <ul>
+                        <li>Предварительные договоры</li>
+                        <li>Соглашения о задатке</li>
+                        <li>Договоры долевого участия</li>
+                        <li>Документы для Росреестра</li>
+                    </ul>
+                </div>
+                
+                <div class="document-category">
+                    <h4><i class="fas fa-users"></i> Наследство и семейные отношения</h4>
+                    <ul>
+                        <li>Завещания и наследственные договоры</li>
+                        <li>Соглашения о разделе имущества</li>
+                        <li>Брачные договоры</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <a href="#contact" class="cta-button">Узнать стоимость моего документа</a>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process" id="process">
+        <div class="container">
+            <h2 class="section-title">Как мы работаем? Всего 4 простых шага</h2>
+            <p class="section-subtitle">От вашей задачи до идеального документа</p>
+            
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Заявка и анализ</h3>
+                    <p>Вы оставляете заявку и описываете задачу. Наш юрист связывается с вами для уточнения деталей и проводит бесплатный первичный анализ.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Разработка и оплата</h3>
+                    <p>Мы согласовываем план работы, сроки и стоимость. После предоплаты лучший специалист по вашему вопросу приступает к составлению договора или иного документа.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Многоуровневая проверка</h3>
+                    <p>Готовый документ проходит наш "конвейер качества": научный консультант, бывший судья (при необходимости) и нейросеть "Искра".</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Выдача результата</h3>
+                    <p>Вы получаете готовый документ в формате Word и PDF, а также пояснительную записку с обоснованием каждой конструкции. Полная отчетность и уверенность.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Warning Section -->
+    <section class="warning">
+        <div class="container">
+            <h2>Не рискуйте! Простое составление договора — это мина замедленного действия</h2>
+            <p>Типовой шаблон из интернета не учитывает нюансов вашей сделки, последних изменений в законодательстве и судебной практики. Одна ошибка в договоре может привести к миллионным убыткам, судебным спорам и потере времени.</p>
+            <p style="margin-top: 20px; font-weight: bold;">Доверьте составление договоров профессионалам с системой контроля, которой нет у конкурентов.</p>
+        </div>
+    </section>
+
+    <!-- Terms Section -->
+    <section class="terms" id="terms">
+        <div class="container">
+            <h2 class="section-title">Условия обслуживания</h2>
+            
+            <div class="terms-content">
+                <div class="terms-nav">
+                    <a href="#" class="term-link active" data-term="payment">Способы оплаты и возврата</a>
+                    <a href="#" class="term-link" data-term="regulation">Регламент использования</a>
+                    <a href="#" class="term-link" data-term="agreement">Договор оказания услуг</a>
+                    <a href="#" class="term-link" data-term="privacy">Политика конфиденциальности</a>
+                </div>
+                
+                <div class="term-content active" id="payment-content">
+                    <h3>Способы оплаты и возврата</h3>
+                    
+                    <h4>Способы оплаты</h4>
+                    <p>Мы предлагаем следующие способы оплаты наших услуг:</p>
+                    <ul>
+                        <li>Банковские карты (Visa, MasterCard, Мир)</li>
+                        <li>Электронные кошельки (ЮMoney, Qiwi)</li>
+                        <li>Банковский перевод для юридических лиц</li>
+                        <li>Оплата через систему быстрых платежей (СБП)</li>
+                    </ul>
+                    
+                    <h4>Процесс оплаты</h4>
+                    <p>После согласования стоимости услуг мы выставляем счет, который можно оплатить любым удобным способом. Оплата должна быть произведена в течение 3 рабочих дней с момента выставления счета.</p>
+                    
+                    <h4>Возврат средств</h4>
+                    <p>Возврат средств возможен в следующих случаях:</p>
+                    <ul>
+                        <li>При отказе от услуг до начала работы над вашим заказом - 100% возврат</li>
+                        <li>При невозможности выполнения заказа по вине исполнителя - 100% возврат</li>
+                        <li>При отказе от услуг в процессе выполнения заказа - возврат пропорционально объему выполненных работ</li>
+                    </ul>
+                    
+                    <p>Для оформления возврата необходимо направить письменное заявление на электронную почту urkey1@yandex.ru. Возврат осуществляется в течение 10 рабочих дней с момента получения заявления.</p>
+                </div>
+                
+                <div class="term-content" id="regulation-content">
+                    <h3>Регламент использования платформы</h3>
+                    
+                    <h4>Общие положения</h4>
+                    <p>Настоящий регламент определяет правила использования услуг, предоставляемых компанией "Составление-документов.рф". Используя наши услуги, вы соглашаетесь с условиями настоящего регламента.</p>
+                    
+                    <h4>Права и обязанности сторон</h4>
+                    <p><strong>Клиент обязуется:</strong></p>
+                    <ul>
+                        <li>Предоставлять достоверную и полную информацию, необходимую для выполнения заказа</li>
+                        <li>Своевременно производить оплату услуг</li>
+                        <li>Соблюдать сроки предоставления дополнительных сведений по запросу исполнителя</li>
+                    </ul>
+                    
+                    <p><strong>Исполнитель обязуется:</strong></p>
+                    <ul>
+                        <li>Выполнять работу в соответствии с заявленными требованиями</li>
+                        <li>Соблюдать согласованные сроки выполнения работ</li>
+                        <li>Обеспечивать конфиденциальность предоставленной информации</li>
+                    </ul>
+                    
+                    <h4>Ограничения ответственности</h4>
+                    <p>Исполнитель не несет ответственности за последствия, возникшие в результате:</p>
+                    <ul>
+                        <li>Предоставления клиентом недостоверной или неполной информации</li>
+                        <li>Изменения законодательства после выполнения работ</li>
+                        <li>Неправильного использования подготовленных документов</li>
+                    </ul>
+                </div>
+                
+                <div class="term-content" id="agreement-content">
+                    <h3>Договор оказания услуг</h3>
+                    
+                    <h4>Предмет договора</h4>
+                    <p>Исполнитель обязуется по заданию Заказчика оказать услуги по составлению юридических документов, а Заказчик обязуется оплатить эти услуги.</p>
+                    
+                    <h4>Порядок оказания услуг</h4>
+                    <p>Услуги оказываются в следующем порядке:</p>
+                    <ol>
+                        <li>Заказчик направляет запрос с описанием требуемого документа</li>
+                        <li>Стороны согласовывают объем работ, сроки и стоимость</li>
+                        <li>Заказчик производит предоплату в размере 50% от стоимости услуг</li>
+                        <li>Исполнитель выполняет работу в согласованные сроки</li>
+                        <li>Заказчик производит окончательный расчет после получения результата</li>
+                    </ol>
+                    
+                    <h4>Стоимость услуг и порядок расчетов</h4>
+                    <p>Стоимость услуг определяется исходя из сложности работы и согласовывается сторонами до начала выполнения заказа. Оплата производится в соответствии с условиями, указанными в разделе "Способы оплаты и возврата".</p>
+                    
+                    <h4>Срок действия договора</h4>
+                    <p>Договор вступает в силу с момента акцепта Заказчиком оферты, размещенной на сайте, и действует до полного выполнения сторонами своих обязательств.</p>
+                    
+                    <h4>Ответственность сторон</h4>
+                    <p>За неисполнение или ненадлежащее исполнение обязательств по договору стороны несут ответственность в соответствии с действующим законодательством Российской Федерации.</p>
+                </div>
+                
+                <div class="term-content" id="privacy-content">
+                    <h3>Политика обработки персональных данных</h3>
+                    
+                    <h4>Общие положения</h4>
+                    <p>Настоящая политика определяет порядок обработки и защиты персональных данных клиентов компании "Составление-документов.рф".</p>
+                    
+                    <h4>Состав персональных данных</h4>
+                    <p>Мы можем собирать следующие персональные данные:</p>
+                    <ul>
+                        <li>Фамилия, имя, отчество</li>
+                        <li>Контактная информация (телефон, электронная почта)</li>
+                        <li>Реквизиты для выставления счетов</li>
+                        <li>Информация, необходимая для выполнения заказа</li>
+                    </ul>
+                    
+                    <h4>Цели обработки персональных данных</h4>
+                    <p>Персональные данные обрабатываются в следующих целях:</p>
+                    <ul>
+                        <li>Заключение и исполнение договоров оказания услуг</li>
+                        <li>Информирование клиентов о новых услугах и акциях</li>
+                        <li>Выполнение требований законодательства</li>
+                    </ul>
+                    
+                    <h4>Защита персональных данных</h4>
+                    <p>Мы принимаем необходимые организационные и технические меры для защиты персональных данных от неправомерного или случайного доступа, уничтожения, изменения, блокирования, копирования, распространения, а также от иных неправомерных действий.</p>
+                    
+                    <h4>Передача персональных данных</h4>
+                    <p>Персональные данные не передаются третьим лицам, за исключением случаев, предусмотренных законодательством Российской Федерации.</p>
+                    
+                    <h4>Права субъекта персональных данных</h4>
+                    <p>Клиент имеет право на доступ к своим персональным данным, их исправление, удаление, а также отзыв согласия на обработку персональных данных.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Получите бесплатную консультацию и расчет стоимости прямо сейчас!</h2>
+            
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <label for="task">Опишите ваш документ или задачу</label>
+                        <textarea id="task" placeholder="Например: 'Нужен договор поставки оборудования с отсрочкой платежа', 'Составить иск о взыскании долга'"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="name">Ваше имя</label>
+                        <input type="text" id="name" placeholder="Введите ваше имя">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Ваш телефон / WhatsApp</label>
+                        <input type="tel" id="phone" placeholder="+7 (986) 244-57-33">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" placeholder="urkey1@yandex.ru">
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="consent">
+                        <label for="consent">Согласен на обработку персональных данных</label>
+                    </div>
+                    
+                    <button type="submit" class="cta-button">Получить расчет и консультацию</button>
+                </form>
+            </div>
+            
+            <div class="contact-info">
+                <p>Телефон для связи: +7 (986) 244-57-33</p>
+                <p>Электронная почта: urkey1@yandex.ru</p>
+                <div class="footer-messenger-buttons">
+                    <a href="https://t.me/urkey1" class="messenger-btn telegram-btn" target="_blank" title="Telegram">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="https://wa.me/79862445733" class="messenger-btn whatsapp-btn" target="_blank" title="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Составление-документов.рф</h3>
+                    <p>Профессиональное составление юридических документов с гарантией качества и защиты ваших интересов.</p>
+                    <div class="footer-messenger-buttons">
+                        <a href="https://t.me/urkey1" class="messenger-btn telegram-btn" target="_blank" title="Telegram">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="https://wa.me/79862445733" class="messenger-btn whatsapp-btn" target="_blank" title="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <p><i class="fas fa-phone"></i> +7 (986) 244-57-33</p>
+                    <p><i class="fas fa-envelope"></i> urkey1@yandex.ru</p>
+                    <p><i class="fas fa-clock"></i> Пн-Пт: 9:00 - 18:00</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Услуги</h3>
+                    <a href="#documents">Договорная работа</a>
+                    <a href="#documents">Корпоративные документы</a>
+                    <a href="#documents">Исковые заявления</a>
+                    <a href="#documents">Недвижимость</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Правовая информация</h3>
+                    <a href="#terms" data-term="payment">Способы оплаты</a>
+                    <a href="#terms" data-term="regulation">Регламент использования</a>
+                    <a href="#terms" data-term="agreement">Договор оказания услуг</a>
+                    <a href="#terms" data-term="privacy">Политика конфиденциальности</a>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2023 Составление-документов.рф. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget">
+        <div class="chat-button" id="chatButton">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <h3>Юридическая консультация</h3>
+                <button class="close-chat" id="closeChat"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    Здравствуйте! Чем могу помочь?
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Введите ваше сообщение...">
+                <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Мобильная навигация
+        const mobileNavToggle = document.getElementById('mobileNavToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const overlay = document.getElementById('overlay');
+        
+        mobileNavToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        overlay.addEventListener('click', () => {
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // Закрытие мобильного меню при клике на ссылку
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Плавная прокрутка к якорям
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Анимация появления элементов при прокрутке
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Наблюдаем за элементами, которые должны появляться при прокрутке
+        document.querySelectorAll('.benefit, .step, .document-category').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+        
+        // Чат
+        const chatButton = document.getElementById('chatButton');
+        const chatWindow = document.getElementById('chatWindow');
+        const closeChat = document.getElementById('closeChat');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendMessage = document.getElementById('sendMessage');
+        
+        chatButton.addEventListener('click', () => {
+            chatWindow.style.display = 'flex';
+        });
+        
+        closeChat.addEventListener('click', () => {
+            chatWindow.style.display = 'none';
+        });
+        
+        sendMessage.addEventListener('click', sendChatMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+        
+        function sendChatMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                // Добавляем сообщение пользователя
+                const userMessage = document.createElement('div');
+                userMessage.className = 'message user-message';
+                userMessage.textContent = message;
+                chatMessages.appendChild(userMessage);
+                
+                // Очищаем поле ввода
+                chatInput.value = '';
+                
+                // Прокручиваем вниз
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Имитируем ответ бота
+                setTimeout(() => {
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'message bot-message';
+                    
+                    // Простые ответы в зависимости от содержания сообщения
+                    if (message.toLowerCase().includes('договор') || message.toLowerCase().includes('документ')) {
+                        botMessage.textContent = 'Для расчета стоимости составления документа, пожалуйста, заполните форму на сайте или опишите подробнее, какой именно документ вам нужен.';
+                    } else if (message.toLowerCase().includes('стоимость') || message.toLowerCase().includes('цена')) {
+                        botMessage.textContent = 'Стоимость зависит от типа документа и его сложности. Для получения точного расчета, пожалуйста, заполните форму на сайте.';
+                    } else if (message.toLowerCase().includes('время') || message.toLowerCase().includes('срок')) {
+                        botMessage.textContent = 'Сроки выполнения зависят от сложности документа. Обычно это 1-3 рабочих дня. Точные сроки мы уточним после получения всех деталей.';
+                    } else {
+                        botMessage.textContent = 'Благодарю за ваш вопрос! Для получения детальной консультации, пожалуйста, заполните форму на сайте или позвоните нам по телефону +7 (986) 244-57-33.';
+                    }
+                    
+                    chatMessages.appendChild(botMessage);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+        }
+        
+        // Условия обслуживания
+        const termLinks = document.querySelectorAll('.term-link');
+        const termContents = document.querySelectorAll('.term-content');
+        
+        termLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Убираем активный класс со всех ссылок
+                termLinks.forEach(l => l.classList.remove('active'));
+                // Добавляем активный класс к текущей ссылке
+                link.classList.add('active');
+                
+                // Скрываем все содержимое
+                termContents.forEach(content => content.classList.remove('active'));
+                // Показываем соответствующее содержимое
+                const termId = link.getAttribute('data-term');
+                document.getElementById(`${termId}-content`).classList.add('active');
+            });
+        });
+        
+        // Обработка ссылок в футере на условия обслуживания
+        document.querySelectorAll('.footer-section a[data-term]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const termId = link.getAttribute('data-term');
+                
+                // Прокручиваем к разделу условий
+                document.getElementById('terms').scrollIntoView({behavior: 'smooth'});
+                
+                // Активируем соответствующую вкладку
+                setTimeout(() => {
+                    document.querySelector(`.term-link[data-term="${termId}"]`).click();
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>
