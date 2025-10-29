@@ -899,185 +899,179 @@
             margin-bottom: 10px;
         }
         
-        /* Mobile Responsive Styles */
-        @media (max-width: 1200px) {
-            .container {
-                width: 95%;
-            }
-        }
-        
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero h2 {
-                font-size: 1.5rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .desktop-nav {
-                display: none;
-            }
-            
-            .mobile-nav-toggle {
-                display: block;
-            }
-            
-            .hero {
-                padding: 80px 0;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .hero h2 {
-                font-size: 1.3rem;
-            }
-            
-            .contact-form {
-                padding: 25px;
-            }
-            
-            .benefits, .documents, .process, .contact, .terms {
-                padding: 60px 0;
-            }
-            
-            .section-title {
-                font-size: 1.8rem;
-            }
-            
-            .section-subtitle {
-                font-size: 1.1rem;
-                margin-bottom: 40px;
-            }
-            
-            .benefit, .step, .document-category {
-                padding: 25px 20px;
-            }
-            
-            .benefit h3, .step h3, .document-category h4 {
-                font-size: 1.3rem;
-            }
-            
-            .cta-button {
-                padding: 15px 30px;
-                font-size: 1.1rem;
-            }
-            
-            .terms-content {
-                padding: 25px;
-            }
-            
-            .terms-nav {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .term-link {
-                text-align: center;
-                padding: 12px;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .chat-window {
-                width: 300px;
-                right: -20px;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            
-            .hero h2 {
-                font-size: 1.2rem;
-            }
-            
-            .section-title {
-                font-size: 1.6rem;
-            }
-            
-            .benefits-grid, .documents-grid, .process-steps {
-                grid-template-columns: 1fr;
-            }
-            
-            .chat-window {
-                width: 280px;
-                right: -20px;
-            }
-            
-            .logo {
-                font-size: 1.5rem;
-            }
-            
-            .container {
-                width: 92%;
-            }
-            
-            body {
-                font-size: 16px;
-            }
-            
-            .benefit p, .step p, .documents li {
-                font-size: 1rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .hero {
-                padding: 60px 0;
-            }
-            
-            .hero h1 {
-                font-size: 1.6rem;
-            }
-            
-            .hero h2 {
-                font-size: 1.1rem;
-            }
-            
-            .cta-button {
-                padding: 12px 25px;
-                font-size: 1rem;
-            }
-            
-            .chat-window {
-                width: 260px;
-                height: 400px;
-            }
-            
-            .contact-form {
-                padding: 20px;
-            }
-            
-            .terms-content {
-                padding: 20px;
-            }
-        }
-        
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
-            }
-        }
+        /* Mobile Responsive Styles - ИСПРАВЛЕННЫЕ */
+@media (max-width: 768px) {
+    .desktop-nav {
+        display: none;
+    }
+    
+    .mobile-nav-toggle {
+        display: block;
+    }
+    
+    .hero {
+        padding: 80px 0;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+        line-height: 1.3;
+        margin-bottom: 20px;
+    }
+    
+    .hero h2 {
+        font-size: 1.2rem;
+        line-height: 1.4;
+        margin-bottom: 30px;
+    }
+    
+    .contact-form {
+        padding: 20px;
+        margin: 0 10px;
+    }
+    
+    .benefits, .documents, .process, .contact, .terms {
+        padding: 50px 0;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
+    
+    .section-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+        padding: 0 10px;
+    }
+    
+    .benefit, .step, .document-category {
+        padding: 20px 15px;
+        margin: 10px 0;
+    }
+    
+    .benefit h3, .step h3, .document-category h4 {
+        font-size: 1.3rem;
+    }
+    
+    .cta-button {
+        padding: 15px 25px;
+        font-size: 1.1rem;
+        margin: 10px auto;
+        width: 90%;
+        text-align: center;
+    }
+    
+    .terms-content {
+        padding: 20px 15px;
+    }
+    
+    .terms-nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .term-link {
+        text-align: center;
+        padding: 12px;
+        font-size: 1rem;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 0 15px;
+    }
+    
+    .chat-window {
+        width: 95vw;
+        height: 70vh;
+        right: 2.5vw;
+        bottom: 80px;
+    }
+    
+    .chat-messages {
+        padding: 10px;
+    }
+    
+    .message {
+        max-width: 90%;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .form-group input, 
+    .form-group textarea {
+        padding: 12px 15px;
+        font-size: 16px; /* Важно для iOS */
+    }
+    
+    .messenger-buttons {
+        margin-left: 15px;
+    }
+    
+    .messenger-btn {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .container {
+        width: 95%;
+        padding: 10px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 60px 0;
+    }
+    
+    .hero h1 {
+        font-size: 1.7rem;
+    }
+    
+    .hero h2 {
+        font-size: 1.1rem;
+    }
+    
+    .cta-button {
+        padding: 14px 20px;
+        font-size: 1rem;
+    }
+    
+    .contact-form {
+        padding: 15px;
+    }
+    
+    .benefits-grid, .documents-grid, .process-steps {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .logo {
+        font-size: 1.3rem;
+    }
+    
+    body {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+    
+    .benefit p, .step p, .documents li {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+    
+    .mobile-nav {
+        width: 85%;
+        padding: 80px 20px 20px;
+    }
+    
+    .mobile-nav ul li a {
+        font-size: 1.1rem;
+        padding: 12px 15px;
+    }
+}
     </style>
 </head>
 <body>
@@ -1537,8 +1531,8 @@
     </div>
 
 <script>
-// Конфигурация
-const SERVER_URL = 'http://localhost:8080';
+// Конфигурация - УБЕДИТЕСЬ ЧТО URL ПРАВИЛЬНЫЙ
+const SERVER_URL = 'http://localhost:8080'; // или ваш реальный URL сервера
 let chatSessionId = null;
 let messagePolling = null;
 let lastMessageTimestamp = null;
@@ -1548,7 +1542,7 @@ function generateSessionId() {
     return 'chat_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
 }
 
-// Инициализация чата
+// Инициализация чата - ИСПРАВЛЕННАЯ ДЛЯ МОБИЛЬНЫХ
 const chatButton = document.getElementById('chatButton');
 const chatWindow = document.getElementById('chatWindow');
 const chatMessages = document.getElementById('chatMessages');
@@ -1556,68 +1550,187 @@ const chatInput = document.getElementById('chatInput');
 const sendMessage = document.getElementById('sendMessage');
 const closeChat = document.getElementById('closeChat');
 
-// Проверяем, что элементы существуют перед добавлением обработчиков
+// Функция для проверки мобильного устройства
+function isMobileDevice() {
+    return window.innerWidth <= 768;
+}
+
+// Улучшенная инициализация чата для мобильных
 if (chatButton && chatWindow) {
-    chatButton.addEventListener('click', () => {
+    chatButton.addEventListener('click', function(e) {
+        e.stopPropagation();
         chatWindow.style.display = 'flex';
-        chatInput.focus();
+        
+        // Фокус на input с задержкой для мобильных
+        setTimeout(() => {
+            if (chatInput) chatInput.focus();
+        }, 300);
         
         if (!chatSessionId) {
             chatSessionId = generateSessionId();
             localStorage.setItem('chatSessionId', chatSessionId);
         }
         
-        // Загружаем историю и запускаем проверку новых сообщений
         loadChatHistory();
         startMessagePolling();
     });
 
-    closeChat.addEventListener('click', () => {
+    closeChat.addEventListener('click', function(e) {
+        e.stopPropagation();
         chatWindow.style.display = 'none';
         stopMessagePolling();
     });
 }
 
+// Улучшенная отправка сообщений для мобильных
 if (sendMessage && chatInput) {
-    sendMessage.addEventListener('click', sendChatMessage);
-    chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendChatMessage();
+    sendMessage.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        sendChatMessage();
+    });
+    
+    chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            sendChatMessage();
+        }
+    });
+    
+    // Дополнительный обработчик для touch устройств
+    chatInput.addEventListener('touchstart', function(e) {
+        if (isMobileDevice()) {
+            this.focus();
+        }
     });
 }
 
-// Функция отправки сообщения в чат
+// Функция отправки сообщения - УСИЛЕННАЯ ОБРАБОТКА ОШИБОК
 async function sendChatMessage() {
     const message = chatInput.value.trim();
-    if (message && chatSessionId) {
-        addMessageToChat('user', message);
+    if (!message || !chatSessionId) return;
+    
+    // Показываем сообщение сразу
+    addMessageToChat('user', message);
+    chatInput.value = '';
+    
+    try {
+        console.log('📤 Отправка сообщения в чат:', message.substring(0, 50));
         
-        try {
-            const response = await fetch(`${SERVER_URL}/chat/${chatSessionId}/messages`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    message: message,
-                    sender: 'user'
-                })
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                addMessageToChat('bot', '✅ Сообщение отправлено! Ожидайте ответа.');
-                console.log('🆔 ID вашей сессии чата:', chatSessionId);
-            } else {
-                throw new Error(result.error);
-            }
-            
-        } catch (error) {
-            console.error('Ошибка:', error);
-            addMessageToChat('bot', '❌ Ошибка отправки. Попробуйте еще раз.');
+        const response = await fetch(`${SERVER_URL}/chat/${chatSessionId}/messages`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: message,
+                sender: 'user'
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        chatInput.value = '';
+        const result = await response.json();
+        
+        if (result.success) {
+            addMessageToChat('bot', '✅ Сообщение отправлено! Ожидайте ответа.');
+            console.log('🆔 ID сессии чата:', chatSessionId);
+        } else {
+            throw new Error(result.error || 'Unknown server error');
+        }
+        
+    } catch (error) {
+        console.error('❌ Ошибка отправки:', error);
+        addMessageToChat('bot', '❌ Ошибка отправки. Попробуйте еще раз или свяжитесь по телефону.');
+    }
+}
+
+// Функция отправки формы - УСИЛЕННАЯ
+async function submitContactForm(formData) {
+    const message = `📋 НОВАЯ ЗАЯВКА С САЙТА\n\n👤 Имя: ${formData.name}\n📞 Телефон: ${formData.phone}\n📧 Email: ${formData.email || 'Не указан'}\n\n📝 Задача:\n${formData.task}\n\n⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
+
+    const formSessionId = 'form_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+        console.log('📤 Отправка формы:', formSessionId);
+        
+        const response = await fetch(`${SERVER_URL}/chat/${formSessionId}/messages`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: message,
+                sender: 'form'
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            return true;
+        } else {
+            throw new Error(result.error || 'Server error');
+        }
+    } catch (error) {
+        console.error('❌ Ошибка отправки формы:', error);
+        return false;
+    }
+}
+
+// Остальные функции остаются без изменений, но убедимся в их работе...
+
+// Загрузка истории чата
+async function loadChatHistory() {
+    if (!chatSessionId) return;
+    
+    try {
+        const response = await fetch(`${SERVER_URL}/chat/${chatSessionId}/messages`);
+        const messages = await response.json();
+        
+        chatMessages.innerHTML = '';
+        
+        if (messages.length === 0) {
+            addMessageToChat('bot', 'Здравствуйте! Чем могу помочь?');
+        } else {
+            messages.forEach(item => {
+                addMessageToChat(item.sender, item.message);
+                if (item.sender === 'admin') {
+                    lastMessageTimestamp = item.timestamp;
+                }
+            });
+        }
+        
+    } catch (error) {
+        console.error('Ошибка загрузки истории:', error);
+        addMessageToChat('bot', 'Здравствуйте! Чем могу помочь?');
+    }
+}
+
+// Проверка новых сообщений
+async function checkForNewMessages() {
+    if (!chatSessionId || chatWindow.style.display !== 'flex') return;
+    
+    try {
+        const url = `${SERVER_URL}/chat/${chatSessionId}/new-messages${lastMessageTimestamp ? `?lastTimestamp=${encodeURIComponent(lastMessageTimestamp)}` : ''}`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.newMessages && data.newMessages.length > 0) {
+            data.newMessages.forEach(message => {
+                addMessageToChat('admin', message.message);
+                lastMessageTimestamp = message.timestamp;
+            });
+        }
+    } catch (error) {
+        console.error('Ошибка проверки сообщений:', error);
     }
 }
 
@@ -1636,130 +1749,69 @@ function addMessageToChat(sender, message) {
     messageElement.textContent = message;
     chatMessages.appendChild(messageElement);
     chatMessages.scrollTop = chatMessages.scrollHeight;
-    
-    // Обновляем временную метку последнего сообщения
-    if (sender === 'admin') {
-        lastMessageTimestamp = new Date().toISOString();
-    }
 }
 
-// Загрузка истории чата
-async function loadChatHistory() {
-    if (!chatSessionId) return;
-    
-    try {
-        const response = await fetch(`${SERVER_URL}/chat/${chatSessionId}/messages`);
-        const messages = await response.json();
-        
-        chatMessages.innerHTML = '';
-        
-        if (messages.length === 0) {
-            addMessageToChat('bot', 'Здравствуйте! Чем могу помочь?');
-        } else {
-            messages.forEach(item => {
-                addMessageToChat(item.sender, item.message);
-                // Запоминаем временную метку последнего сообщения администратора
-                if (item.sender === 'admin') {
-                    lastMessageTimestamp = item.timestamp;
-                }
-            });
-        }
-        
-    } catch (error) {
-        console.error('Ошибка загрузки истории:', error);
-        addMessageToChat('bot', 'Здравствуйте! Чем могу помочь?');
-    }
-}
-
-// Проверка новых сообщений от администратора
-async function checkForNewMessages() {
-    if (!chatSessionId || chatWindow.style.display !== 'flex') return;
-    
-    try {
-        const url = `${SERVER_URL}/chat/${chatSessionId}/new-messages${lastMessageTimestamp ? `?lastTimestamp=${encodeURIComponent(lastMessageTimestamp)}` : ''}`;
-        
-        const response = await fetch(url);
-        const data = await response.json();
-        
-        if (data.newMessages && data.newMessages.length > 0) {
-            console.log(`📨 Получено ${data.newMessages.length} новых сообщений`);
-            
-            data.newMessages.forEach(message => {
-                addMessageToChat('admin', message.message);
-                lastMessageTimestamp = message.timestamp;
-            });
-        }
-        
-    } catch (error) {
-        console.error('Ошибка проверки сообщений:', error);
-    }
-}
-
-// Запуск периодической проверки сообщений
+// Запуск проверки сообщений
 function startMessagePolling() {
-    // Останавливаем предыдущую проверку если была
-    if (messagePolling) {
-        clearInterval(messagePolling);
-    }
-    
-    // Проверяем каждые 2 секунды когда чат открыт
+    if (messagePolling) clearInterval(messagePolling);
     messagePolling = setInterval(checkForNewMessages, 2000);
-    console.log('🔍 Запущена проверка новых сообщений');
 }
 
-// Остановка проверки сообщений
+// Остановка проверки
 function stopMessagePolling() {
     if (messagePolling) {
         clearInterval(messagePolling);
         messagePolling = null;
-        console.log('🔍 Проверка сообщений остановлена');
     }
 }
 
-// Функция отправки формы (ОТДЕЛЬНАЯ от чата)
-async function submitContactForm(formData) {
-    const message = `📋 НОВАЯ ЗАЯВКА С САЙТА\n\n👤 Имя: ${formData.name}\n📞 Телефон: ${formData.phone}\n📧 Email: ${formData.email || 'Не указан'}\n\n📝 Задача:\n${formData.task}\n\n⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
-
-    // СОЗДАЕМ ОТДЕЛЬНУЮ СЕССИЮ ДЛЯ ФОРМЫ
-    const formSessionId = 'form_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-    
-    try {
-        const response = await fetch(`${SERVER_URL}/chat/${formSessionId}/messages`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: message,
-                sender: 'form' // ОТПРАВЛЯЕМ КАК FORM, А НЕ USER
-            })
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            alert('✅ Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.');
-            return true;
-        } else {
-            throw new Error('Ошибка отправки');
-        }
-    } catch (error) {
-        console.error('Ошибка:', error);
-        alert('❌ Произошла ошибка при отправке. Пожалуйста, свяжитесь с нами по телефону +7 (986) 244-57-33');
-        return false;
-    }
-}
-
-// Загрузка сохраненной сессии при старте
-window.addEventListener('load', () => {
+// Инициализация при загрузке
+window.addEventListener('load', function() {
+    // Восстановление сессии
     const savedSessionId = localStorage.getItem('chatSessionId');
     if (savedSessionId) {
         chatSessionId = savedSessionId;
-        console.log('🔄 Восстановлена сессия:', chatSessionId);
+        console.log('Восстановлена сессия:', chatSessionId);
     }
     
     // Инициализация навигации
     initNavigation();
+    
+    // Обработка формы
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Показываем загрузку
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Отправка...';
+            submitBtn.disabled = true;
+            
+            const formData = {
+                task: document.getElementById('task').value,
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value
+            };
+            
+            const success = await submitContactForm(formData);
+            
+            if (success) {
+                alert('✅ Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.');
+                this.reset();
+            } else {
+                alert('❌ Произошла ошибка при отправке. Пожалуйста, свяжитесь с нами по телефону +7 (986) 244-57-33');
+            }
+            
+            // Восстанавливаем кнопку
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
+    }
+    
+    console.log('Сайт загружен, SERVER_URL:', SERVER_URL);
 });
 
 // Функция инициализации навигации
@@ -1770,21 +1822,21 @@ function initNavigation() {
     const overlay = document.getElementById('overlay');
     
     if (mobileNavToggle && mobileNav && overlay) {
-        mobileNavToggle.addEventListener('click', () => {
+        mobileNavToggle.addEventListener('click', function() {
             mobileNav.classList.toggle('active');
             overlay.classList.toggle('active');
             document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
         });
         
-        overlay.addEventListener('click', () => {
+        overlay.addEventListener('click', function() {
             mobileNav.classList.remove('active');
             overlay.classList.remove('active');
             document.body.style.overflow = '';
         });
         
-        // Закрытие мобильного меню при клике на ссылку
+        // Закрытие меню при клике на ссылку
         document.querySelectorAll('.mobile-nav a').forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', function() {
                 mobileNav.classList.remove('active');
                 overlay.classList.remove('active');
                 document.body.style.overflow = '';
@@ -1792,11 +1844,10 @@ function initNavigation() {
         });
     }
     
-    // Плавная прокрутка к якорям
+    // Плавная прокрутка
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
             
@@ -1809,74 +1860,7 @@ function initNavigation() {
             }
         });
     });
-
-    // Обработка переключения терминов
-    const termLinks = document.querySelectorAll('.term-link');
-    const termContents = document.querySelectorAll('.term-content');
-    
-    termLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const term = this.getAttribute('data-term');
-            
-            // Убираем активный класс у всех
-            termLinks.forEach(l => l.classList.remove('active'));
-            termContents.forEach(c => c.classList.remove('active'));
-            
-            // Добавляем активный класс текущему
-            this.classList.add('active');
-            document.getElementById(`${term}-content`).classList.add('active');
-        });
-    });
 }
-
-// Обработка формы (исправленная версия)
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-    contactForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const formData = {
-            task: document.getElementById('task').value,
-            name: document.getElementById('name').value,
-            phone: document.getElementById('phone').value,
-            email: document.getElementById('email').value
-        };
-        
-        const success = await submitContactForm(formData);
-        if (success) {
-            this.reset();
-        }
-    });
-}
-
-// Добавляем обработчики для ссылок в футере
-document.addEventListener('DOMContentLoaded', function() {
-    const footerLinks = document.querySelectorAll('.footer-section a[data-term]');
-    footerLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const term = this.getAttribute('data-term');
-            
-            // Находим соответствующий элемент в навигации терминов
-            const termLink = document.querySelector(`.term-link[data-term="${term}"]`);
-            if (termLink) {
-                termLink.click();
-                
-                // Прокручиваем к секции терминов
-                const termsSection = document.getElementById('terms');
-                if (termsSection) {
-                    window.scrollTo({
-                        top: termsSection.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
-    });
-});
-
-console.log('✅ Чат инициализирован. SERVER_URL:', SERVER_URL);
 </script>
 </body>
 </html>
