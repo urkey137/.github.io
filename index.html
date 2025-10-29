@@ -1766,23 +1766,33 @@
         // Остальной ваш код навигации...
     }
     
-    // Обработка формы (ваш существующий код)
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = {
-            task: document.getElementById('task').value,
-            name: document.getElementById('name').value,
-            phone: document.getElementById('phone').value,
-            email: document.getElementById('email').value
-        };
-        
-        const message = `📋 НОВАЯ ЗАЯВКА С САЙТА\n\n👤 Имя: ${formData.name}\n📞 Телефон: ${formData.phone}\n📧 Email: ${formData.email || 'Не указан'}\n\n📝 Задача:\n${formData.task}\n\n⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
+    // Обработка формы
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = {
+        task: document.getElementById('task').value,
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value
+    };
+    
+    const message = `📋 НОВАЯ ЗАЯВКА С САЙТА\n\n👤 Имя: ${formData.name}\n📞 Телефон: ${formData.phone}\n📧 Email: ${formData.email || 'Не указан'}\n\n📝 Задача:\n${formData.task}\n\n⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
 
-        // Отправка заявки через чат
-        const tempSessionId = 'form_' + Date.now();
-        
-        fetch(`${SERVER_URL}/chat/${tempSessionId}/messages`, {
+    // Отправляем через основную сессию чата
+    sendFormMessage(message);
+});
+
+// Функция отправки заявки через основную сессию
+async function sendFormMessage(message) {
+    // Используем основную сессию чата или создаем новую
+    if (!chatSessionId) {
+        chatSessionId = generateSessionId();
+        localStorage.setItem('chatSessionId', chatSessionId);
+    }
+    
+    try {
+        const response = await fetch(`${SERVER_URL}/chat/${chatSessionId}/messages`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1791,21 +1801,60 @@
                 message: message,
                 sender: 'form'
             })
-        })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                alert('✅ Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.');
-                this.reset();
-            } else {
-                throw new Error('Ошибка отправки');
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-            alert('❌ Произошла ошибка при отправке. Пожалуйста, свяжитесь с нами по телефону.');
         });
-    });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('✅ Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.');
+            document.getElementById('contactForm').reset();
+            
+            // Показываем подтверждение в чате
+            addMessageToChat('bot', '✅ Ваша заявка отправлена! Мы свяжемся с вами в ближайшее время.');
+            
+            console.log('📨 Заявка отправлена через сессию:', chatSessionId);
+        } else {
+            throw new Error(result.error || 'Ошибка отправки');
+        }
+    } catch (error) {
+        console.error('Ошибка отправки заявки:', error);
+        
+        // Пробуем альтернативный способ
+        await sendAlternativeMessage(message);
+    }
+}
+
+// Альтернативный способ отправки (если основной не работает)
+async function sendAlternativeMessage(message) {
+    try {
+        // Создаем отдельную сессию для формы
+        const formSessionId = 'form_' + Date.now();
+        
+        const response = await fetch(`${SERVER_URL}/chat/${formSessionId}/messages`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: message,
+                sender: 'form'
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('✅ Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.');
+            document.getElementById('contactForm').reset();
+            console.log('📨 Заявка отправлена через резервную сессию:', formSessionId);
+        } else {
+            throw new Error('Ошибка отправки');
+        }
+    } catch (error) {
+        console.error('Ошибка резервной отправки:', error);
+        alert('❌ Произошла ошибка при отправке. Пожалуйста, свяжитесь с нами по телефону +7 (986) 244-57-33');
+    }
+}
 </script>
 </body>
 </html>
