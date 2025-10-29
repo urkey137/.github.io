@@ -1585,7 +1585,7 @@ if (sendMessage && chatInput) {
     });
 }
 
-// Функция отправки сообщения
+// Функция отправки сообщения в чат
 async function sendChatMessage() {
     const message = chatInput.value.trim();
     if (message && chatSessionId) {
@@ -1716,25 +1716,22 @@ function stopMessagePolling() {
     }
 }
 
-// Функция отправки формы (исправленная)
+// Функция отправки формы (ОТДЕЛЬНАЯ от чата)
 async function submitContactForm(formData) {
     const message = `📋 НОВАЯ ЗАЯВКА С САЙТА\n\n👤 Имя: ${formData.name}\n📞 Телефон: ${formData.phone}\n📧 Email: ${formData.email || 'Не указан'}\n\n📝 Задача:\n${formData.task}\n\n⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
 
-    // Используем основную сессию чата или создаем новую
-    if (!chatSessionId) {
-        chatSessionId = generateSessionId();
-        localStorage.setItem('chatSessionId', chatSessionId);
-    }
+    // СОЗДАЕМ ОТДЕЛЬНУЮ СЕССИЮ ДЛЯ ФОРМЫ
+    const formSessionId = 'form_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
     
     try {
-        const response = await fetch(`${SERVER_URL}/chat/${chatSessionId}/messages`, {
+        const response = await fetch(`${SERVER_URL}/chat/${formSessionId}/messages`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 message: message,
-                sender: 'user'
+                sender: 'form' // ОТПРАВЛЯЕМ КАК FORM, А НЕ USER
             })
         });
         
