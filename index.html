@@ -5,15 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Составление договоров и других юридических документов под ключ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Составление договоров и других юридических документов под ключ",
+      "description": "Профессиональная разработка, проверка кандидатами и докторами наук и исковая защита с гарантией результата",
+      "telephone": "+7-986-244-57-33",
+      "email": "urkey1@yandex.ru",
+      "areaServed": "RU",
+      "serviceType": "Юридические услуги"
+    }
+    </script>
     <style>
         :root {
             --primary-color: #1a3a6c;
             --accent-color: #d4af37;
+            --secondary-color: #2c5530;
+            --success-color: #28a745;
             --light-color: #f8f9fa;
             --dark-color: #343a40;
             --text-color: #333;
-            --border-radius: 10px;
-            --box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
         }
         
@@ -47,6 +61,12 @@
             top: 0;
             z-index: 1000;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: var(--transition);
+        }
+        
+        .header-scrolled {
+            background: rgba(26, 58, 108, 0.95);
+            backdrop-filter: blur(10px);
         }
         
         .header-content {
@@ -328,17 +348,23 @@
             border-top: 4px solid var(--accent-color);
             position: relative;
             overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
         }
         
         .benefit:before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
+            left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(26, 58, 108, 0.03) 0%, rgba(212, 175, 55, 0.03) 100%);
-            z-index: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: var(--transition);
+        }
+        
+        .benefit:hover:before {
+            left: 100%;
         }
         
         .benefit:hover {
@@ -364,6 +390,34 @@
             display: block;
             width: fit-content;
             margin: 40px auto 0;
+        }
+        
+        /* Stats Section */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--text-color);
         }
         
         /* Documents Catalog */
@@ -400,6 +454,23 @@
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .document-category:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: var(--transition);
+        }
+        
+        .document-category:hover:before {
+            left: 100%;
         }
         
         .document-category:hover {
@@ -468,6 +539,8 @@
             transition: var(--transition);
             position: relative;
             border: 1px solid rgba(212, 175, 55, 0.2);
+            opacity: 0;
+            transform: translateY(20px);
         }
         
         .step:hover {
@@ -599,6 +672,16 @@
             box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
         }
         
+        .form-group input:invalid, 
+        .form-group textarea:invalid {
+            border-color: #dc3545;
+        }
+        
+        .form-group input:valid, 
+        .form-group textarea:valid {
+            border-color: #28a745;
+        }
+        
         .form-group textarea {
             min-height: 140px;
             resize: vertical;
@@ -615,6 +698,22 @@
             width: auto;
             margin-right: 10px;
             transform: scale(1.2);
+        }
+        
+        .loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            animation: rotation 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         .contact-form .cta-button {
@@ -876,6 +975,39 @@
             margin-bottom: 10px;
         }
         
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent-color);
+            color: var(--primary-color);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background: #e6c260;
+            transform: translateY(-3px);
+        }
+        
         /* Mobile Responsive Styles */
         @media (max-width: 1200px) {
             .container {
@@ -966,6 +1098,19 @@
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .stat {
+                padding: 20px;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
         }
         
         @media (max-width: 576px) {
@@ -1054,7 +1199,7 @@
 </head>
 <body>
     <!-- Header -->
-    <header>
+    <header id="mainHeader">
         <div class="container header-content">
             <div class="logo">Составление-<span>документов</span>.рф</div>
             <nav class="desktop-nav">
@@ -1137,6 +1282,22 @@
                 <div class="benefit">
                     <h3><i class="fas fa-file-alt"></i> Пояснительная записка с законами</h3>
                     <p>Вы получаете не просто "бумажку". К каждому документу мы прикладываем <strong>подробную пояснительную записку</strong> со ссылками на статьи ГК РФ, НК РФ и другие нормативные акты. Вы будете понимать, какая норма права и как вас защищает.</p>
+                </div>
+            </div>
+            
+            <!-- Stats Section -->
+            <div class="stats-container">
+                <div class="stat">
+                    <div class="stat-number" data-target="95">0</div>
+                    <div class="stat-label">% документов не требуют доработки</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" data-target="500">0</div>
+                    <div class="stat-label">составленных документов</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" data-target="24">0</div>
+                    <div class="stat-label">часа - средний срок выполнения</div>
                 </div>
             </div>
             
@@ -1394,33 +1555,36 @@
             <h2>Получите бесплатную консультацию и расчет стоимости прямо сейчас!</h2>
             
             <div class="contact-form">
-                <form>
+                <form id="contactForm">
                     <div class="form-group">
                         <label for="task">Опишите ваш документ или задачу</label>
-                        <textarea id="task" placeholder="Например: 'Нужен договор поставки оборудования с отсрочкой платежа', 'Составить иск о взыскании долга'"></textarea>
+                        <textarea id="task" placeholder="Например: 'Нужен договор поставки оборудования с отсрочкой платежа', 'Составить иск о взыскании долга'" required></textarea>
                     </div>
                     
                     <div class="form-group">
                         <label for="name">Ваше имя</label>
-                        <input type="text" id="name" placeholder="Введите ваше имя">
+                        <input type="text" id="name" placeholder="Введите ваше имя" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="phone">Ваш телефон / WhatsApp</label>
-                        <input type="tel" id="phone" placeholder="+7 (986) 244-57-33">
+                        <input type="tel" id="phone" placeholder="+7 (986) 244-57-33" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="email">E-mail</label>
-                        <input type="email" id="email" placeholder="urkey1@yandex.ru">
+                        <input type="email" id="email" placeholder="urkey1@yandex.ru" required>
                     </div>
                     
                     <div class="checkbox-group">
-                        <input type="checkbox" id="consent">
+                        <input type="checkbox" id="consent" required>
                         <label for="consent">Согласен на обработку персональных данных</label>
                     </div>
                     
-                    <button type="submit" class="cta-button">Получить расчет и консультацию</button>
+                    <button type="submit" class="cta-button">
+                        <span class="button-text">Получить расчет и консультацию</span>
+                        <div class="loader"></div>
+                    </button>
                 </form>
             </div>
             
@@ -1508,6 +1672,11 @@
         </div>
     </div>
 
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
     <script>
         // Мобильная навигация
         const mobileNavToggle = document.getElementById('mobileNavToggle');
@@ -1515,15 +1684,20 @@
         const overlay = document.getElementById('overlay');
         
         mobileNavToggle.addEventListener('click', () => {
-            mobileNav.classList.toggle('active');
+            const isActive = mobileNav.classList.toggle('active');
             overlay.classList.toggle('active');
-            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+            document.body.style.overflow = isActive ? 'hidden' : '';
+            
+            // Меняем иконку
+            const icon = mobileNavToggle.querySelector('i');
+            icon.className = isActive ? 'fas fa-times' : 'fas fa-bars';
         });
         
         overlay.addEventListener('click', () => {
             mobileNav.classList.remove('active');
             overlay.classList.remove('active');
             document.body.style.overflow = '';
+            mobileNavToggle.querySelector('i').className = 'fas fa-bars';
         });
         
         // Закрытие мобильного меню при клике на ссылку
@@ -1532,6 +1706,7 @@
                 mobileNav.classList.remove('active');
                 overlay.classList.remove('active');
                 document.body.style.overflow = '';
+                mobileNavToggle.querySelector('i').className = 'fas fa-bars';
             });
         });
         
@@ -1545,8 +1720,11 @@
                 
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    
                     window.scrollTo({
-                        top: targetElement.offsetTop - 80,
+                        top: targetPosition,
                         behavior: 'smooth'
                     });
                 }
@@ -1575,6 +1753,47 @@
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(el);
         });
+        
+        // Эффект хедера при скролле
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
+            }
+        });
+        
+        // Анимированные счетчики
+        const statNumbers = document.querySelectorAll('.stat-number');
+        const statsSection = document.querySelector('.benefits');
+        
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    statNumbers.forEach(statNumber => {
+                        const target = parseInt(statNumber.getAttribute('data-target'));
+                        const duration = 2000; // 2 seconds
+                        const step = target / (duration / 16); // 60fps
+                        let current = 0;
+                        
+                        const timer = setInterval(() => {
+                            current += step;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                            }
+                            statNumber.textContent = Math.floor(current);
+                        }, 16);
+                    });
+                    
+                    // Отключаем наблюдатель после первого срабатывания
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        statsObserver.observe(statsSection);
         
         // Чат
         const chatButton = document.getElementById('chatButton');
@@ -1671,6 +1890,62 @@
                 setTimeout(() => {
                     document.querySelector(`.term-link[data-term="${termId}"]`).click();
                 }, 500);
+            });
+        });
+        
+        // Обработка формы
+        const contactForm = document.getElementById('contactForm');
+        const submitButton = contactForm.querySelector('.cta-button');
+        const buttonText = submitButton.querySelector('.button-text');
+        const loader = submitButton.querySelector('.loader');
+        
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Валидация
+            const task = document.getElementById('task').value;
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const consent = document.getElementById('consent').checked;
+            
+            if (!task || !name || !phone || !email || !consent) {
+                alert('Пожалуйста, заполните все обязательные поля и дайте согласие на обработку данных');
+                return;
+            }
+            
+            // Показываем лоадер
+            buttonText.style.display = 'none';
+            loader.style.display = 'block';
+            submitButton.disabled = true;
+            
+            // Имитация отправки на сервер
+            setTimeout(() => {
+                alert('Спасибо за заявку! Мы свяжемся с вами в течение 15 минут.');
+                contactForm.reset();
+                
+                // Скрываем лоадер
+                buttonText.style.display = 'block';
+                loader.style.display = 'none';
+                submitButton.disabled = false;
+            }, 2000);
+        });
+        
+        // Кнопка "Наверх"
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
         });
     </script>
