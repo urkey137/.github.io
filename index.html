@@ -4,7 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Составление договоров и других юридических документов под ключ</title>
+    <meta name="description" content="Профессиональное составление юридических документов под ключ. Договоры, исковые заявления, корпоративные документы с гарантией качества">
+    <meta name="keywords" content="юридические документы, составление договоров, договор, исковое заявление, юридические услуги, юрист">
+    <meta name="author" content="Составление-документов.рф">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LegalService",
+      "name": "Составление-документов.рф",
+      "description": "Профессиональное составление юридических документов под ключ",
+      "url": "https://составление-документов.рф",
+      "telephone": "+7-986-244-57-33",
+      "email": "urkey1@yandex.ru",
+      "areaServed": "RU",
+      "serviceType": "Юридические услуги"
+    }
+    </script>
     <style>
         :root {
             --primary-color: #1a3a6c;
@@ -1394,29 +1411,29 @@
             <h2>Получите бесплатную консультацию и расчет стоимости прямо сейчас!</h2>
             
             <div class="contact-form">
-                <form>
+                <form id="contactForm">
                     <div class="form-group">
                         <label for="task">Опишите ваш документ или задачу</label>
-                        <textarea id="task" placeholder="Например: 'Нужен договор поставки оборудования с отсрочкой платежа', 'Составить иск о взыскании долга'"></textarea>
+                        <textarea id="task" name="task" placeholder="Например: 'Нужен договор поставки оборудования с отсрочкой платежа', 'Составить иск о взыскании долга'" required></textarea>
                     </div>
                     
                     <div class="form-group">
                         <label for="name">Ваше имя</label>
-                        <input type="text" id="name" placeholder="Введите ваше имя">
+                        <input type="text" id="name" name="name" placeholder="Введите ваше имя" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="phone">Ваш телефон / WhatsApp</label>
-                        <input type="tel" id="phone" placeholder="+7 (986) 244-57-33">
+                        <input type="tel" id="phone" name="phone" placeholder="+7 (986) 244-57-33" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="email">E-mail</label>
-                        <input type="email" id="email" placeholder="urkey1@yandex.ru">
+                        <input type="email" id="email" name="email" placeholder="urkey1@yandex.ru">
                     </div>
                     
                     <div class="checkbox-group">
-                        <input type="checkbox" id="consent">
+                        <input type="checkbox" id="consent" name="consent" required>
                         <label for="consent">Согласен на обработку персональных данных</label>
                     </div>
                     
@@ -1672,6 +1689,29 @@
                     document.querySelector(`.term-link[data-term="${termId}"]`).click();
                 }, 500);
             });
+        });
+        
+        // Обработка формы
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Собираем данные формы
+            const formData = {
+                task: document.getElementById('task').value,
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value
+            };
+            
+            // Отправка в WhatsApp
+            const message = `Новая заявка:%0A%0AИмя: ${formData.name}%0AТелефон: ${formData.phone}%0AEmail: ${formData.email}%0AЗадача: ${formData.task}`;
+            window.open(`https://wa.me/79862445733?text=${message}`, '_blank');
+            
+            // Показываем сообщение об успехе
+            alert('Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.');
+            
+            // Очищаем форму
+            this.reset();
         });
     </script>
 </body>
