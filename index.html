@@ -1537,7 +1537,7 @@
     </div>
 
 <script>
- // Конфигурация
+// Конфигурация
 const SERVER_URL = 'http://localhost:8080';
 let chatSessionId = null;
 let messagePolling = null;
@@ -1556,29 +1556,34 @@ const chatInput = document.getElementById('chatInput');
 const sendMessage = document.getElementById('sendMessage');
 const closeChat = document.getElementById('closeChat');
 
-chatButton.addEventListener('click', () => {
-    chatWindow.style.display = 'flex';
-    chatInput.focus();
-    
-    if (!chatSessionId) {
-        chatSessionId = generateSessionId();
-        localStorage.setItem('chatSessionId', chatSessionId);
-    }
-    
-    // Загружаем историю и запускаем проверку новых сообщений
-    loadChatHistory();
-    startMessagePolling();
-});
+// Проверяем, что элементы существуют перед добавлением обработчиков
+if (chatButton && chatWindow) {
+    chatButton.addEventListener('click', () => {
+        chatWindow.style.display = 'flex';
+        chatInput.focus();
+        
+        if (!chatSessionId) {
+            chatSessionId = generateSessionId();
+            localStorage.setItem('chatSessionId', chatSessionId);
+        }
+        
+        // Загружаем историю и запускаем проверку новых сообщений
+        loadChatHistory();
+        startMessagePolling();
+    });
 
-closeChat.addEventListener('click', () => {
-    chatWindow.style.display = 'none';
-    stopMessagePolling();
-});
+    closeChat.addEventListener('click', () => {
+        chatWindow.style.display = 'none';
+        stopMessagePolling();
+    });
+}
 
-sendMessage.addEventListener('click', sendChatMessage);
-chatInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendChatMessage();
-});
+if (sendMessage && chatInput) {
+    sendMessage.addEventListener('click', sendChatMessage);
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendChatMessage();
+    });
+}
 
 // Функция отправки сообщения
 async function sendChatMessage() {
@@ -1711,6 +1716,43 @@ function stopMessagePolling() {
     }
 }
 
+// Функция отправки формы (исправленная)
+async function submitContactForm(formData) {
+    const message = `📋 НОВАЯ ЗАЯВКА С САЙТА\n\n👤 Имя: ${formData.name}\n📞 Телефон: ${formData.phone}\n📧 Email: ${formData.email || 'Не указан'}\n\n📝 Задача:\n${formData.task}\n\n⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
+
+    // Используем основную сессию чата или создаем новую
+    if (!chatSessionId) {
+        chatSessionId = generateSessionId();
+        localStorage.setItem('chatSessionId', chatSessionId);
+    }
+    
+    try {
+        const response = await fetch(`${SERVER_URL}/chat/${chatSessionId}/messages`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: message,
+                sender: 'user'
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('✅ Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.');
+            return true;
+        } else {
+            throw new Error('Ошибка отправки');
+        }
+    } catch (error) {
+        console.error('Ошибка:', error);
+        alert('❌ Произошла ошибка при отправке. Пожалуйста, свяжитесь с нами по телефону +7 (986) 244-57-33');
+        return false;
+    }
+}
+
 // Загрузка сохраненной сессии при старте
 window.addEventListener('load', () => {
     const savedSessionId = localStorage.getItem('chatSessionId');
@@ -1730,26 +1772,28 @@ function initNavigation() {
     const mobileNav = document.getElementById('mobileNav');
     const overlay = document.getElementById('overlay');
     
-    mobileNavToggle.addEventListener('click', () => {
-        mobileNav.classList.toggle('active');
-        overlay.classList.toggle('active');
-        document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
-    });
-    
-    overlay.addEventListener('click', () => {
-        mobileNav.classList.remove('active');
-        overlay.classList.remove('active');
-        document.body.style.overflow = '';
-    });
-    
-    // Закрытие мобильного меню при клике на ссылку
-    document.querySelectorAll('.mobile-nav a').forEach(link => {
-        link.addEventListener('click', () => {
+    if (mobileNavToggle && mobileNav && overlay) {
+        mobileNavToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        overlay.addEventListener('click', () => {
             mobileNav.classList.remove('active');
             overlay.classList.remove('active');
             document.body.style.overflow = '';
         });
-    });
+        
+        // Закрытие мобильного меню при клике на ссылку
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+    }
     
     // Плавная прокрутка к якорям
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1768,52 +1812,74 @@ function initNavigation() {
             }
         });
     });
+
+    // Обработка переключения терминов
+    const termLinks = document.querySelectorAll('.term-link');
+    const termContents = document.querySelectorAll('.term-content');
+    
+    termLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const term = this.getAttribute('data-term');
+            
+            // Убираем активный класс у всех
+            termLinks.forEach(l => l.classList.remove('active'));
+            termContents.forEach(c => c.classList.remove('active'));
+            
+            // Добавляем активный класс текущему
+            this.classList.add('active');
+            document.getElementById(`${term}-content`).classList.add('active');
+        });
+    });
 }
 
-// Обработка формы
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const formData = {
-        task: document.getElementById('task').value,
-        name: document.getElementById('name').value,
-        phone: document.getElementById('phone').value,
-        email: document.getElementById('email').value
-    };
-    
-    const message = `📋 НОВАЯ ЗАЯВКА С САЙТА\n\n👤 Имя: ${formData.name}\n📞 Телефон: ${formData.phone}\n📧 Email: ${formData.email || 'Не указан'}\n\n📝 Задача:\n${formData.task}\n\n⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
-
-    // Используем основную сессию чата или создаем новую
-    if (!chatSessionId) {
-        chatSessionId = generateSessionId();
-        localStorage.setItem('chatSessionId', chatSessionId);
-    }
-    
-    try {
-        const response = await fetch(`${SERVER_URL}/chat/${chatSessionId}/messages`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: message,
-                sender: 'user' // Используем 'user' чтобы сервер уведомлял администраторов
-            })
-        });
+// Обработка формы (исправленная версия)
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
         
-        const result = await response.json();
+        const formData = {
+            task: document.getElementById('task').value,
+            name: document.getElementById('name').value,
+            phone: document.getElementById('phone').value,
+            email: document.getElementById('email').value
+        };
         
-        if (result.success) {
-            alert('✅ Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.');
+        const success = await submitContactForm(formData);
+        if (success) {
             this.reset();
-        } else {
-            throw new Error('Ошибка отправки');
         }
-    } catch (error) {
-        console.error('Ошибка:', error);
-        alert('❌ Произошла ошибка при отправке. Пожалуйста, свяжитесь с нами по телефону +7 (986) 244-57-33');
-    }
+    });
+}
+
+// Добавляем обработчики для ссылок в футере
+document.addEventListener('DOMContentLoaded', function() {
+    const footerLinks = document.querySelectorAll('.footer-section a[data-term]');
+    footerLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const term = this.getAttribute('data-term');
+            
+            // Находим соответствующий элемент в навигации терминов
+            const termLink = document.querySelector(`.term-link[data-term="${term}"]`);
+            if (termLink) {
+                termLink.click();
+                
+                // Прокручиваем к секции терминов
+                const termsSection = document.getElementById('terms');
+                if (termsSection) {
+                    window.scrollTo({
+                        top: termsSection.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    });
 });
+
+console.log('✅ Чат инициализирован. SERVER_URL:', SERVER_URL);
 </script>
 </body>
 </html>
