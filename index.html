@@ -1540,6 +1540,8 @@
     // Конфигурация
     const SERVER_URL = 'http://localhost:8080';
     let chatSessionId = null;
+    let messagePolling = null;
+    let lastMessageTimestamp = null;
     
     // Генерация ID сессии
     function generateSessionId() {
@@ -1552,6 +1554,7 @@
     const chatMessages = document.getElementById('chatMessages');
     const chatInput = document.getElementById('chatInput');
     const sendMessage = document.getElementById('sendMessage');
+    const closeChat = document.getElementById('closeChat');
     
     chatButton.addEventListener('click', () => {
         chatWindow.style.display = 'flex';
@@ -1560,13 +1563,15 @@
         if (!chatSessionId) {
             chatSessionId = generateSessionId();
             localStorage.setItem('chatSessionId', chatSessionId);
+            startMessagePolling();
         }
         
         loadChatHistory();
     });
     
-    document.getElementById('closeChat').addEventListener('click', () => {
+    closeChat.addEventListener('click', () => {
         chatWindow.style.display = 'none';
+        stopMessagePolling();
     });
     
     sendMessage.addEventListener('click', sendChatMessage);
@@ -1596,6 +1601,7 @@
                 
                 if (result.success) {
                     addMessageToChat('bot', '✅ Сообщение отправлено! Ожидайте ответа.');
+                    console.log('🆔 ID вашей сессии чата:', chatSessionId);
                 } else {
                     throw new Error(result.error);
                 }
@@ -1624,6 +1630,11 @@
         messageElement.textContent = message;
         chatMessages.appendChild(messageElement);
         chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Обновляем временную метку последнего сообщения
+        if (sender === 'admin') {
+            lastMessageTimestamp = new Date().toISOString();
+        }
     }
     
     // Загрузка истории чата
@@ -1641,6 +1652,10 @@
             } else {
                 messages.forEach(item => {
                     addMessageToChat(item.sender, item.message);
+                    // Запоминаем временную метку последнего сообщения администратора
+                    if (item.sender === 'admin') {
+                        lastMessageTimestamp = item.timestamp;
+                    }
                 });
             }
             
@@ -1650,8 +1665,147 @@
         }
     }
     
-    // Остальной код навигации и т.д. остается без изменений
-    // ... [ваш существующий код] ...
+    // Проверка новых сообщений от администратора
+    async function checkForNewMessages() {
+        if (!chatSessionId || chatWindow.style.display !== 'flex') return;
+        
+        try {
+            const url = `${SERVER_URL}/chat/${chatSessionId}/new-messages${lastMessageTimestamp ? `?lastTimestamp=${encodeURIComponent(lastMessageTimestamp)}` : ''}`;
+            
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            if (data.newMessages && data.newMessages.length > 0) {
+                console.log(`📨 Получено ${data.newMessages.length} новых сообщений`);
+                
+                data.newMessages.forEach(message => {
+                    addMessageToChat('admin', message.message);
+                    lastMessageTimestamp = message.timestamp;
+                });
+            }
+            
+        } catch (error) {
+            console.error('Ошибка проверки сообщений:', error);
+        }
+    }
+    
+    // Запуск периодической проверки сообщений
+    function startMessagePolling() {
+        // Проверяем каждые 3 секунды
+        messagePolling = setInterval(checkForNewMessages, 3000);
+        console.log('🔍 Запущена проверка новых сообщений');
+    }
+    
+    // Остановка проверки сообщений
+    function stopMessagePolling() {
+        if (messagePolling) {
+            clearInterval(messagePolling);
+            messagePolling = null;
+            console.log('🔍 Проверка сообщений остановлена');
+        }
+    }
+    
+    // Загрузка сохраненной сессии при старте
+    window.addEventListener('load', () => {
+        const savedSessionId = localStorage.getItem('chatSessionId');
+        if (savedSessionId) {
+            chatSessionId = savedSessionId;
+            console.log('🔄 Восстановлена сессия:', chatSessionId);
+        }
+        
+        // Инициализация навигации (ваш существующий код)
+        initNavigation();
+    });
+    
+    // Функция инициализации навигации (ваш существующий код)
+    function initNavigation() {
+        // Мобильная навигация
+        const mobileNavToggle = document.getElementById('mobileNavToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const overlay = document.getElementById('overlay');
+        
+        mobileNavToggle.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        overlay.addEventListener('click', () => {
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // Закрытие мобильного меню при клике на ссылку
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Плавная прокрутка к якорям
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Остальной ваш код навигации...
+    }
+    
+    // Обработка формы (ваш существующий код)
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = {
+            task: document.getElementById('task').value,
+            name: document.getElementById('name').value,
+            phone: document.getElementById('phone').value,
+            email: document.getElementById('email').value
+        };
+        
+        const message = `📋 НОВАЯ ЗАЯВКА С САЙТА\n\n👤 Имя: ${formData.name}\n📞 Телефон: ${formData.phone}\n📧 Email: ${formData.email || 'Не указан'}\n\n📝 Задача:\n${formData.task}\n\n⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
+
+        // Отправка заявки через чат
+        const tempSessionId = 'form_' + Date.now();
+        
+        fetch(`${SERVER_URL}/chat/${tempSessionId}/messages`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: message,
+                sender: 'form'
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                alert('✅ Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.');
+                this.reset();
+            } else {
+                throw new Error('Ошибка отправки');
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            alert('❌ Произошла ошибка при отправке. Пожалуйста, свяжитесь с нами по телефону.');
+        });
+    });
 </script>
 </body>
 </html>
