@@ -1537,236 +1537,240 @@
     </div>
 
 <script>
-    // Конфигурация
-    const SERVER_URL = 'http://localhost:8080';
-    let chatSessionId = null;
-    let messagePolling = null;
-    let lastMessageTimestamp = null;
+  // Конфигурация
+const SERVER_URL = 'http://localhost:8080';
+let chatSessionId = null;
+let messagePolling = null;
+let lastMessageTimestamp = null;
+
+// Генерация ID сессии
+function generateSessionId() {
+    return 'chat_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+}
+
+// Инициализация чата
+const chatButton = document.getElementById('chatButton');
+const chatWindow = document.getElementById('chatWindow');
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const sendMessage = document.getElementById('sendMessage');
+const closeChat = document.getElementById('closeChat');
+
+chatButton.addEventListener('click', () => {
+    chatWindow.style.display = 'flex';
+    chatInput.focus();
     
-    // Генерация ID сессии
-    function generateSessionId() {
-        return 'chat_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    if (!chatSessionId) {
+        chatSessionId = generateSessionId();
+        localStorage.setItem('chatSessionId', chatSessionId);
     }
     
-    // Инициализация чата
-    const chatButton = document.getElementById('chatButton');
-    const chatWindow = document.getElementById('chatWindow');
-    const chatMessages = document.getElementById('chatMessages');
-    const chatInput = document.getElementById('chatInput');
-    const sendMessage = document.getElementById('sendMessage');
-    const closeChat = document.getElementById('closeChat');
-    
-    chatButton.addEventListener('click', () => {
-        chatWindow.style.display = 'flex';
-        chatInput.focus();
-        
-        if (!chatSessionId) {
-            chatSessionId = generateSessionId();
-            localStorage.setItem('chatSessionId', chatSessionId);
-            startMessagePolling();
-        }
-        
-        loadChatHistory();
-    });
-    
-    closeChat.addEventListener('click', () => {
-        chatWindow.style.display = 'none';
-        stopMessagePolling();
-    });
-    
-    sendMessage.addEventListener('click', sendChatMessage);
-    chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendChatMessage();
-    });
-    
-    // Функция отправки сообщения
-    async function sendChatMessage() {
-        const message = chatInput.value.trim();
-        if (message && chatSessionId) {
-            addMessageToChat('user', message);
-            
-            try {
-                const response = await fetch(`${SERVER_URL}/chat/${chatSessionId}/messages`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        sender: 'user'
-                    })
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    addMessageToChat('bot', '✅ Сообщение отправлено! Ожидайте ответа.');
-                    console.log('🆔 ID вашей сессии чата:', chatSessionId);
-                } else {
-                    throw new Error(result.error);
-                }
-                
-            } catch (error) {
-                console.error('Ошибка:', error);
-                addMessageToChat('bot', '❌ Ошибка отправки. Попробуйте еще раз.');
-            }
-            
-            chatInput.value = '';
-        }
-    }
-    
-    // Функция добавления сообщения в чат
-    function addMessageToChat(sender, message) {
-        const messageElement = document.createElement('div');
-        
-        if (sender === 'user') {
-            messageElement.className = 'message user-message';
-        } else if (sender === 'admin') {
-            messageElement.className = 'message admin-message';
-        } else {
-            messageElement.className = 'message bot-message';
-        }
-        
-        messageElement.textContent = message;
-        chatMessages.appendChild(messageElement);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-        
-        // Обновляем временную метку последнего сообщения
-        if (sender === 'admin') {
-            lastMessageTimestamp = new Date().toISOString();
-        }
-    }
-    
-    // Загрузка истории чата
-    async function loadChatHistory() {
-        if (!chatSessionId) return;
+    // Загружаем историю и запускаем проверку новых сообщений
+    loadChatHistory();
+    startMessagePolling();
+});
+
+closeChat.addEventListener('click', () => {
+    chatWindow.style.display = 'none';
+    stopMessagePolling();
+});
+
+sendMessage.addEventListener('click', sendChatMessage);
+chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendChatMessage();
+});
+
+// Функция отправки сообщения
+async function sendChatMessage() {
+    const message = chatInput.value.trim();
+    if (message && chatSessionId) {
+        addMessageToChat('user', message);
         
         try {
-            const response = await fetch(`${SERVER_URL}/chat/${chatSessionId}/messages`);
-            const messages = await response.json();
+            const response = await fetch(`${SERVER_URL}/chat/${chatSessionId}/messages`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: message,
+                    sender: 'user'
+                })
+            });
             
-            chatMessages.innerHTML = '';
+            const result = await response.json();
             
-            if (messages.length === 0) {
-                addMessageToChat('bot', 'Здравствуйте! Чем могу помочь?');
+            if (result.success) {
+                addMessageToChat('bot', '✅ Сообщение отправлено! Ожидайте ответа.');
+                console.log('🆔 ID вашей сессии чата:', chatSessionId);
             } else {
-                messages.forEach(item => {
-                    addMessageToChat(item.sender, item.message);
-                    // Запоминаем временную метку последнего сообщения администратора
-                    if (item.sender === 'admin') {
-                        lastMessageTimestamp = item.timestamp;
-                    }
-                });
+                throw new Error(result.error);
             }
             
         } catch (error) {
-            console.error('Ошибка загрузки истории:', error);
+            console.error('Ошибка:', error);
+            addMessageToChat('bot', '❌ Ошибка отправки. Попробуйте еще раз.');
+        }
+        
+        chatInput.value = '';
+    }
+}
+
+// Функция добавления сообщения в чат
+function addMessageToChat(sender, message) {
+    const messageElement = document.createElement('div');
+    
+    if (sender === 'user') {
+        messageElement.className = 'message user-message';
+    } else if (sender === 'admin') {
+        messageElement.className = 'message admin-message';
+    } else {
+        messageElement.className = 'message bot-message';
+    }
+    
+    messageElement.textContent = message;
+    chatMessages.appendChild(messageElement);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    // Обновляем временную метку последнего сообщения
+    if (sender === 'admin') {
+        lastMessageTimestamp = new Date().toISOString();
+    }
+}
+
+// Загрузка истории чата
+async function loadChatHistory() {
+    if (!chatSessionId) return;
+    
+    try {
+        const response = await fetch(`${SERVER_URL}/chat/${chatSessionId}/messages`);
+        const messages = await response.json();
+        
+        chatMessages.innerHTML = '';
+        
+        if (messages.length === 0) {
             addMessageToChat('bot', 'Здравствуйте! Чем могу помочь?');
-        }
-    }
-    
-    // Проверка новых сообщений от администратора
-    async function checkForNewMessages() {
-        if (!chatSessionId || chatWindow.style.display !== 'flex') return;
-        
-        try {
-            const url = `${SERVER_URL}/chat/${chatSessionId}/new-messages${lastMessageTimestamp ? `?lastTimestamp=${encodeURIComponent(lastMessageTimestamp)}` : ''}`;
-            
-            const response = await fetch(url);
-            const data = await response.json();
-            
-            if (data.newMessages && data.newMessages.length > 0) {
-                console.log(`📨 Получено ${data.newMessages.length} новых сообщений`);
-                
-                data.newMessages.forEach(message => {
-                    addMessageToChat('admin', message.message);
-                    lastMessageTimestamp = message.timestamp;
-                });
-            }
-            
-        } catch (error) {
-            console.error('Ошибка проверки сообщений:', error);
-        }
-    }
-    
-    // Запуск периодической проверки сообщений
-    function startMessagePolling() {
-        // Проверяем каждые 3 секунды
-        messagePolling = setInterval(checkForNewMessages, 3000);
-        console.log('🔍 Запущена проверка новых сообщений');
-    }
-    
-    // Остановка проверки сообщений
-    function stopMessagePolling() {
-        if (messagePolling) {
-            clearInterval(messagePolling);
-            messagePolling = null;
-            console.log('🔍 Проверка сообщений остановлена');
-        }
-    }
-    
-    // Загрузка сохраненной сессии при старте
-    window.addEventListener('load', () => {
-        const savedSessionId = localStorage.getItem('chatSessionId');
-        if (savedSessionId) {
-            chatSessionId = savedSessionId;
-            console.log('🔄 Восстановлена сессия:', chatSessionId);
+        } else {
+            messages.forEach(item => {
+                addMessageToChat(item.sender, item.message);
+                // Запоминаем временную метку последнего сообщения администратора
+                if (item.sender === 'admin') {
+                    lastMessageTimestamp = item.timestamp;
+                }
+            });
         }
         
-        // Инициализация навигации (ваш существующий код)
-        initNavigation();
+    } catch (error) {
+        console.error('Ошибка загрузки истории:', error);
+        addMessageToChat('bot', 'Здравствуйте! Чем могу помочь?');
+    }
+}
+
+// Проверка новых сообщений от администратора
+async function checkForNewMessages() {
+    if (!chatSessionId || chatWindow.style.display !== 'flex') return;
+    
+    try {
+        const url = `${SERVER_URL}/chat/${chatSessionId}/new-messages${lastMessageTimestamp ? `?lastTimestamp=${encodeURIComponent(lastMessageTimestamp)}` : ''}`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.newMessages && data.newMessages.length > 0) {
+            console.log(`📨 Получено ${data.newMessages.length} новых сообщений`);
+            
+            data.newMessages.forEach(message => {
+                addMessageToChat('admin', message.message);
+                lastMessageTimestamp = message.timestamp;
+            });
+        }
+        
+    } catch (error) {
+        console.error('Ошибка проверки сообщений:', error);
+    }
+}
+
+// Запуск периодической проверки сообщений
+function startMessagePolling() {
+    // Останавливаем предыдущую проверку если была
+    if (messagePolling) {
+        clearInterval(messagePolling);
+    }
+    
+    // Проверяем каждые 2 секунды когда чат открыт
+    messagePolling = setInterval(checkForNewMessages, 2000);
+    console.log('🔍 Запущена проверка новых сообщений');
+}
+
+// Остановка проверки сообщений
+function stopMessagePolling() {
+    if (messagePolling) {
+        clearInterval(messagePolling);
+        messagePolling = null;
+        console.log('🔍 Проверка сообщений остановлена');
+    }
+}
+
+// Загрузка сохраненной сессии при старте
+window.addEventListener('load', () => {
+    const savedSessionId = localStorage.getItem('chatSessionId');
+    if (savedSessionId) {
+        chatSessionId = savedSessionId;
+        console.log('🔄 Восстановлена сессия:', chatSessionId);
+    }
+    
+    // Инициализация навигации
+    initNavigation();
+});
+
+// Функция инициализации навигации
+function initNavigation() {
+    // Мобильная навигация
+    const mobileNavToggle = document.getElementById('mobileNavToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    const overlay = document.getElementById('overlay');
+    
+    mobileNavToggle.addEventListener('click', () => {
+        mobileNav.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
     });
     
-    // Функция инициализации навигации (ваш существующий код)
-    function initNavigation() {
-        // Мобильная навигация
-        const mobileNavToggle = document.getElementById('mobileNavToggle');
-        const mobileNav = document.getElementById('mobileNav');
-        const overlay = document.getElementById('overlay');
-        
-        mobileNavToggle.addEventListener('click', () => {
-            mobileNav.classList.toggle('active');
-            overlay.classList.toggle('active');
-            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
-        });
-        
-        overlay.addEventListener('click', () => {
+    overlay.addEventListener('click', () => {
+        mobileNav.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+    
+    // Закрытие мобильного меню при клике на ссылку
+    document.querySelectorAll('.mobile-nav a').forEach(link => {
+        link.addEventListener('click', () => {
             mobileNav.classList.remove('active');
             overlay.classList.remove('active');
             document.body.style.overflow = '';
         });
-        
-        // Закрытие мобильного меню при клике на ссылку
-        document.querySelectorAll('.mobile-nav a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileNav.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-        });
-        
-        // Плавная прокрутка к якорям
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-        
-        // Остальной ваш код навигации...
-    }
+    });
     
-    // Обработка формы
+    // Плавная прокрутка к якорям
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+}
+
+// Обработка формы
 document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -1779,12 +1783,6 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     
     const message = `📋 НОВАЯ ЗАЯВКА С САЙТА\n\n👤 Имя: ${formData.name}\n📞 Телефон: ${formData.phone}\n📧 Email: ${formData.email || 'Не указан'}\n\n📝 Задача:\n${formData.task}\n\n⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
 
-    // Отправляем через основную сессию чата
-    sendFormMessage(message);
-});
-
-// Функция отправки заявки через основную сессию
-async function sendFormMessage(message) {
     // Используем основную сессию чата или создаем новую
     if (!chatSessionId) {
         chatSessionId = generateSessionId();
@@ -1799,7 +1797,7 @@ async function sendFormMessage(message) {
             },
             body: JSON.stringify({
                 message: message,
-                sender: 'form'
+                sender: 'user' // Используем 'user' чтобы сервер уведомлял администраторов
             })
         });
         
@@ -1807,22 +1805,15 @@ async function sendFormMessage(message) {
         
         if (result.success) {
             alert('✅ Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.');
-            document.getElementById('contactForm').reset();
-            
-            // Показываем подтверждение в чате
-            addMessageToChat('bot', '✅ Ваша заявка отправлена! Мы свяжемся с вами в ближайшее время.');
-            
-            console.log('📨 Заявка отправлена через сессию:', chatSessionId);
+            this.reset();
         } else {
-            throw new Error(result.error || 'Ошибка отправки');
+            throw new Error('Ошибка отправки');
         }
     } catch (error) {
-        console.error('Ошибка отправки заявки:', error);
-        
-        // Пробуем альтернативный способ
-        await sendAlternativeMessage(message);
+        console.error('Ошибка:', error);
+        alert('❌ Произошла ошибка при отправке. Пожалуйста, свяжитесь с нами по телефону +7 (986) 244-57-33');
     }
-}
+});
 
 // Альтернативный способ отправки (если основной не работает)
 async function sendAlternativeMessage(message) {
